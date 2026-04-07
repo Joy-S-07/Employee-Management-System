@@ -2,9 +2,11 @@ import React from 'react';
 import Navbar from '../navbar/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useAuth } from '../../context/AuthContext';
 
 const WebDashboard = () => {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   return (
     <>
@@ -37,21 +39,25 @@ const WebDashboard = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="text-white drop-shadow-xl max-w-3xl">
             <h1 className="text-5xl md:text-6xl font-black mb-4 tracking-tighter leading-tight text-transparent bg-clip-text bg-linear-to-r from-white to-white/70">
-              Accelerate Your Workflow.
+              {user ? `Welcome back, ${user.name.split(' ')[0]}.` : 'Accelerate Your Workflow.'}
             </h1>
             <p className="text-lg md:text-xl text-white/90 font-medium leading-relaxed drop-shadow-md">
-              Your central hub for tracking corporate milestones, managing pending reviews, and engaging with new priority tasks effortlessly.
+              {user ? `Your role as ${user.role} is vital. Track milestones, manage your schedule, and collaborate seamlessly.` : 'Your central hub for tracking corporate milestones, managing pending reviews, and engaging with new priority tasks effortlessly.'}
             </p>
           </div>
           
           <button 
-            onClick={() => navigate('/login')}
-            className="shrink-0 px-8 py-4 bg-white/20 hover:bg-white/30 backdrop-blur-md transition-all text-white text-lg font-bold rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.2)] border border-white/40 flex items-center gap-3 active:scale-95"
+            onClick={() => user ? navigate(`/${user.role}`) : navigate('/login')}
+            className="shrink-0 px-8 py-4 bg-rose-500/80 hover:bg-rose-600 backdrop-blur-md transition-all text-white text-lg font-bold rounded-2xl shadow-[0_8px_30px_rgba(225,29,72,0.3)] border border-rose-400/50 flex items-center gap-3 active:scale-95"
           >
-            Sign In / Manage
-            <span className="w-8 h-8 rounded-full bg-white text-indigo-900 flex items-center justify-center shadow-inner">
+            {user ? 'Go to Dashboard' : 'Sign In / Manage'}
+            <span className="w-8 h-8 rounded-full bg-white text-rose-900 flex items-center justify-center shadow-inner">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                {user ? (
+                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                 ) : (
+                   <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                 )}
               </svg>
             </span>
           </button>

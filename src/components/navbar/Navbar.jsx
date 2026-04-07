@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
   const [activeTab, setActiveTab] = useState('Overview');
   const [hoveredTab, setHoveredTab] = useState(null);
   const tabs = ['Overview', 'Active Tasks', 'Directory', 'Settings'];
+  const { user } = useAuth();
 
   const currentPill = hoveredTab || activeTab;
+
+  const initials = user ? user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'JS';
+
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 px-4 py-4 sm:px-8 lg:px-12">
@@ -55,11 +60,11 @@ const Navbar = () => {
         {/* Right: Profile Section */}
         <div className="flex items-center gap-3 shrink-0 cursor-pointer hover:bg-white/60 transition-all py-1.5 pl-1.5 pr-4 rounded-full border border-white/40 shadow-sm hover:border-white/80">
           <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-sm font-bold shadow-inner">
-            JS
+            {initials}
           </div>
           <div className="hidden sm:block text-left relative z-10 drop-shadow-sm">
-            <p className="text-sm font-bold text-slate-900 leading-none">Joy Sengupta</p>
-            <p className="text-xs font-semibold text-slate-600 mt-1">Administrator</p>
+            <p className="text-sm font-bold text-slate-900 leading-none">{user ? user.name : 'Guest'}</p>
+            <p className="text-xs font-semibold text-slate-600 mt-1 capitalize">{user ? user.role : 'Visitor'}</p>
           </div>
           <svg className="w-4 h-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />

@@ -3,11 +3,44 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-
+import { useAuth } from '../../context/AuthContext';
+import userData from '../../utils/userData.json';
 const Login = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const containerRef = useRef(null);
   const navigate = useNavigate();
+  const { login } = useAuth();
+  
+  const [empEmail, setEmpEmail] = useState('');
+  const [empPassword, setEmpPassword] = useState('');
+  
+  const [adminId, setAdminId] = useState('');
+  const [adminPassword, setAdminPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleEmployeeLogin = (e) => {
+    e.preventDefault();
+    setError('');
+    const user = userData.employees.find(emp => emp.email === empEmail && emp.password === empPassword);
+    if (user) {
+      login({ ...user, role: 'employee' });
+      navigate('/employee');
+    } else {
+      setError('Invalid employee credentials');
+    }
+  };
+
+  const handleAdminLogin = (e) => {
+    e.preventDefault();
+    setError('');
+    const admin = userData.admin.find(adm => adm.id === adminId && adm.password === adminPassword);
+    if (admin) {
+      login({ ...admin, role: 'admin' });
+      navigate('/admin');
+    } else {
+      setError('Invalid admin credentials');
+    }
+  };
 
   useGSAP(() => {
     const tl = gsap.timeline();
@@ -98,9 +131,17 @@ const Login = () => {
         {/* RIGHT SIDE: White Backdrop Filter Glass Form */}
         <div className="flex flex-col justify-center p-8 lg:p-20 relative bg-white/50 backdrop-blur-[40px]">
           
-          <div className="mb-12 relative z-10 drop-shadow-sm">
+          <div className="mb-8 relative z-10 drop-shadow-sm">
             <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight mb-3">Welcome Back</h2>
             <p className="text-slate-800 font-medium text-lg">Sign in to continue to your dashboard.</p>
+            {error && (
+              <div className="mt-4 p-3 bg-rose-100/80 border border-rose-300 text-rose-700 rounded-lg text-sm font-bold flex items-center gap-2">
+                <svg className="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                {error}
+              </div>
+            )}
           </div>
 
           {/* Toggle Button */}
@@ -131,11 +172,13 @@ const Login = () => {
             
             {/* Employee Login Container */}
             <div className="employee-form-elements absolute inset-0 w-full">
-              <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+              <form className="flex flex-col gap-6" onSubmit={handleEmployeeLogin}>
                 <div>
                   <label className="block text-sm font-bold text-slate-800 mb-2 drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">Work Email</label>
                   <input 
                     type="email" 
+                    value={empEmail}
+                    onChange={(e) => setEmpEmail(e.target.value)}
                     className="w-full px-5 py-4 bg-white/70 backdrop-blur-md text-slate-900 rounded-xl border border-white/60 focus:border-indigo-500 focus:bg-white/90 focus:ring-4 focus:ring-indigo-500/20 transition-all font-semibold placeholder:text-slate-500 outline-none shadow-sm"
                     placeholder="name@company.com"
                   />
@@ -144,6 +187,8 @@ const Login = () => {
                   <label className="block text-sm font-bold text-slate-800 mb-2 drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">Password</label>
                   <input 
                     type="password" 
+                    value={empPassword}
+                    onChange={(e) => setEmpPassword(e.target.value)}
                     className="w-full px-5 py-4 bg-white/70 backdrop-blur-md text-slate-900 rounded-xl border border-white/60 focus:border-indigo-500 focus:bg-white/90 focus:ring-4 focus:ring-indigo-500/20 transition-all font-semibold placeholder:text-slate-500 outline-none shadow-sm"
                     placeholder="••••••••"
                   />
@@ -154,7 +199,7 @@ const Login = () => {
                   </div>
                 </div>
                 
-                <button className="w-full mt-2 py-4 bg-indigo-600/90 hover:bg-indigo-700 backdrop-blur-md active:scale-[0.98] rounded-xl text-white font-bold text-lg transition-all shadow-[0_8px_20px_rgba(79,70,229,0.3)] border border-indigo-500/50">
+                <button type="submit" className="w-full mt-2 py-4 bg-indigo-600/90 hover:bg-indigo-700 backdrop-blur-md active:scale-[0.98] rounded-xl text-white font-bold text-lg transition-all shadow-[0_8px_20px_rgba(79,70,229,0.3)] border border-indigo-500/50">
                   Sign In to Pulse
                 </button>
                 <button 
@@ -172,11 +217,13 @@ const Login = () => {
 
             {/* Admin Login Container */}
             <div className="admin-form-elements absolute inset-0 w-full opacity-0 hidden">
-              <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+              <form className="flex flex-col gap-6" onSubmit={handleAdminLogin}>
                 <div>
                   <label className="block text-sm font-bold text-slate-800 mb-2 drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">Admin Identifier</label>
                   <input 
                     type="text" 
+                    value={adminId}
+                    onChange={(e) => setAdminId(e.target.value)}
                     className="w-full px-5 py-4 bg-white/70 backdrop-blur-md text-slate-900 rounded-xl border border-white/60 focus:border-rose-500 focus:bg-white/90 focus:ring-4 focus:ring-rose-500/20 transition-all font-mono font-semibold placeholder:text-slate-500 outline-none shadow-sm"
                     placeholder="ADM-XXXX"
                   />
@@ -185,12 +232,14 @@ const Login = () => {
                   <label className="block text-sm font-bold text-slate-800 mb-2 drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">Security Passcode</label>
                   <input 
                     type="password" 
+                    value={adminPassword}
+                    onChange={(e) => setAdminPassword(e.target.value)}
                     className="w-full px-5 py-4 bg-white/70 backdrop-blur-md text-slate-900 rounded-xl border border-white/60 focus:border-rose-500 focus:bg-white/90 focus:ring-4 focus:ring-rose-500/20 transition-all font-semibold placeholder:text-slate-500 outline-none shadow-sm tracking-[0.2em]"
                     placeholder="••••••••"
                   />
                 </div>
                 
-                <button className="w-full mt-2 py-4 bg-rose-600/90 hover:bg-rose-700 backdrop-blur-md active:scale-[0.98] rounded-xl text-white font-bold text-lg transition-all shadow-[0_8px_20px_rgba(225,29,72,0.3)] border border-rose-500/50">
+                <button type="submit" className="w-full mt-2 py-4 bg-rose-600/90 hover:bg-rose-700 backdrop-blur-md active:scale-[0.98] rounded-xl text-white font-bold text-lg transition-all shadow-[0_8px_20px_rgba(225,29,72,0.3)] border border-rose-500/50">
                   Authorize & Access
                 </button>
                 <button 

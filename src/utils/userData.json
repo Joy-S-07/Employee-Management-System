@@ -1,0 +1,32 @@
+{
+  "admin": [
+    {
+      "id": "ADM-001",
+      "password": "admin",
+      "name": "Super Admin Console"
+    }
+  ],
+  "employees": [
+    {
+      "id": "EMP-001",
+      "email": "employee1@company.com",
+      "password": "123",
+      "name": "Sarah Jenkins",
+      "role": "Senior Developer"
+    },
+    {
+      "id": "EMP-002",
+      "email": "employee2@company.com",
+      "password": "123",
+      "name": "Marcus Webb",
+      "role": "Product Manager"
+    },
+    {
+      "id": "EMP-003",
+      "email": "employee3@company.com",
+      "password": "123",
+      "name": "Alex Chen",
+      "role": "UX Designer"
+    }
+  ]
+}
