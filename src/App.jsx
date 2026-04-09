@@ -10,6 +10,7 @@ import TaskManagement from './pages/TaskManagement';
 import OrganizationRegistration from './pages/OrganizationRegistration';
 import Profile from './pages/Profile';
 import EmployeeTasks from './pages/EmployeeTasks';
+import EmployeeManagement from './pages/EmployeeManagement';
 
 const ProtectedAdminRoute = ({ children }) => {
   const { user } = useAuth();
@@ -37,6 +38,7 @@ const AnimatedRoutes = () => {
         <Route path="/admin" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
         <Route path="/admin/tasks" element={<ProtectedAdminRoute><TaskManagement /></ProtectedAdminRoute>} />
         <Route path="/admin/profile" element={<ProtectedAdminRoute><Profile /></ProtectedAdminRoute>} />
+        <Route path="/admin/employees" element={<ProtectedAdminRoute><EmployeeManagement /></ProtectedAdminRoute>} />
         
         <Route path="/employee" element={<ProtectedEmployeeRoute><EmployeeDashboard /></ProtectedEmployeeRoute>} />
         <Route path="/employee/tasks" element={<ProtectedEmployeeRoute><EmployeeTasks /></ProtectedEmployeeRoute>} />

@@ -45,6 +45,10 @@ const TaskManagement = () => {
             <span className="material-symbols-outlined pb-1">person</span>
             <span className="font-label text-sm tracking-wider">Profile</span>
           </a>
+          <a onClick={() => navigate('/admin/employees')} className="cursor-pointer flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 text-slate-500 dark:text-slate-400 font-medium hover:bg-sky-100/50 dark:hover:bg-sky-800/30">
+            <span className="material-symbols-outlined pb-1">groups</span>
+            <span className="font-label text-sm tracking-wider">Personnel</span>
+          </a>
         </nav>
         <div className="mt-auto pt-6 space-y-2 border-t border-slate-200/20">
           <button className="w-full bg-primary-container text-white py-4 rounded-xl font-bold tracking-wide mb-6 hover:brightness-110 transition-all shadow-lg shadow-primary/10">

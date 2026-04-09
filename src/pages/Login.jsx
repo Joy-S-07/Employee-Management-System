@@ -3,7 +3,6 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import userData from '../utils/userData.json';
 
 const Login = () => {
   const [role, setRole] = useState('admin');
@@ -13,24 +12,24 @@ const Login = () => {
   
   const containerRef = useRef(null);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, admins, employees } = useAuth();
 
   const handleLogin = (e) => {
     e.preventDefault();
     setError('');
 
     if (role === 'admin') {
-      const admin = userData.admin.find(adm => adm.id === emailOrId && adm.password === password);
-      if (admin) {
-        login({ ...admin, role: 'admin' });
+      const adminMatch = admins.find(adm => adm.id === emailOrId && adm.password === password);
+      if (adminMatch) {
+        login({ ...adminMatch, role: 'admin' });
         navigate('/admin');
       } else {
         setError('Invalid admin credentials');
       }
     } else {
-      const user = userData.employees.find(emp => emp.email === emailOrId && emp.password === password);
-      if (user) {
-        login({ ...user, role: 'employee' });
+      const userMatch = employees.find(emp => emp.email === emailOrId && emp.password === password);
+      if (userMatch) {
+        login({ ...userMatch, role: 'employee' });
         navigate('/employee');
       } else {
         setError('Invalid employee credentials');

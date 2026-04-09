@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { useAuth } from '../context/AuthContext';
@@ -6,12 +6,28 @@ import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const containerRef = useRef(null);
-  const { user, logout } = useAuth();
+  const { user, logout, updateProfile } = useAuth();
   const navigate = useNavigate();
+
+  const [name, setName] = useState(user?.name || '');
+  const [email, setEmail] = useState(user?.email || '');
+  const [password, setPassword] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
 
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  const handleProfileUpdate = (e) => {
+    e.preventDefault();
+    const updates = { name, email };
+    if (password) updates.password = password; 
+    
+    updateProfile(updates);
+    
+    setSuccessMsg('Profile updated successfully.');
+    setTimeout(() => setSuccessMsg(''), 3000);
   };
 
   useGSAP(() => {
@@ -48,6 +64,12 @@ const Profile = () => {
             <span className="material-symbols-outlined pb-1">person</span>
             <span className="font-label text-sm tracking-wider">Profile</span>
           </a>
+          {user?.role === 'admin' && (
+            <a onClick={() => navigate('/admin/employees')} className="cursor-pointer flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 text-slate-500 dark:text-slate-400 font-medium hover:bg-sky-100/50 dark:hover:bg-sky-800/30">
+              <span className="material-symbols-outlined pb-1">groups</span>
+              <span className="font-label text-sm tracking-wider">Personnel</span>
+            </a>
+          )}
         </nav>
         <div className="mt-auto pt-6 space-y-2 border-t border-slate-200/20">
           <button className="w-full bg-primary-container text-white py-4 rounded-xl font-bold tracking-wide mb-6 hover:brightness-110 transition-all shadow-lg shadow-primary/10">
@@ -129,13 +151,16 @@ const Profile = () => {
 
           {/* Details Card */}
           <div className="profile-card col-span-12 md:col-span-8 glass-card p-10 rounded-3xl border-white/20">
-             <h4 className="font-headline text-xl font-bold text-sky-900 mb-8 border-b border-surface-container pb-4">Personal Details</h4>
+             <div className="flex justify-between items-end border-b border-surface-container pb-4 mb-8">
+               <h4 className="font-headline text-xl font-bold text-sky-900">Personal Details</h4>
+               {successMsg && <span className="text-green-600 font-bold text-xs uppercase tracking-wider">{successMsg}</span>}
+             </div>
              
-             <form className="space-y-6 max-w-2xl">
+             <form onSubmit={handleProfileUpdate} className="space-y-6 max-w-2xl">
                 <div className="profile-field grid grid-cols-2 gap-6">
                    <div>
                      <label className="block text-[10px] uppercase tracking-[0.2em] font-bold text-on-surface-variant mb-2">Full Name</label>
-                     <input type="text" className="w-full bg-white/50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 transition-all font-medium text-primary outline-none" defaultValue={user?.name || ''} />
+                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-white/50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 transition-all font-medium text-primary outline-none" />
                    </div>
                    <div>
                      <label className="block text-[10px] uppercase tracking-[0.2em] font-bold text-on-surface-variant mb-2">Role</label>
@@ -144,19 +169,18 @@ const Profile = () => {
                 </div>
                 
                 <div className="profile-field space-y-2">
-                   <label className="block text-[10px] uppercase tracking-[0.2em] font-bold text-on-surface-variant">Email Address</label>
-                   <input type="email" className="w-full bg-white/50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 transition-all font-medium text-primary outline-none" defaultValue={user?.email || 'admin@ethereal.work'} />
+                   <label className="block text-[10px] uppercase tracking-[0.2em] font-bold text-on-surface-variant">Email or ID</label>
+                   <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-white/50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 transition-all font-medium text-primary outline-none" />
                 </div>
 
                 <div className="profile-field space-y-2">
                    <label className="block text-[10px] uppercase tracking-[0.2em] font-bold text-on-surface-variant">Authentication Password</label>
                    <div className="relative group">
-                     <input type="password" placeholder="•••••••••" className="w-full bg-white/50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 transition-all font-medium text-primary outline-none" />
-                     <button type="button" className="absolute right-4 top-1/2 -translate-y-1/2 text-primary font-bold text-xs uppercase tracking-widest hover:underline">Reset</button>
+                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Leave blank to keep unchanged" className="w-full bg-white/50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 transition-all font-medium text-primary outline-none" />
                    </div>
                 </div>
 
-                <div className="profile-field pt-6">
+                <div className="profile-field pt-6 flex space-x-4">
                    <button type="submit" className="px-8 py-3 bg-primary text-white rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
                       Update Profile
                    </button>
