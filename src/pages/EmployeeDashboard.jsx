@@ -32,15 +32,15 @@ const EmployeeDashboard = () => {
         </div>
         <div className="flex flex-col space-y-2 mb-auto">
           {/* Dashboard Active */}
-          <a className="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 font-bold text-sky-900 dark:text-sky-100 relative before:content-[''] before:absolute before:left-0 before:w-1 before:h-8 before:bg-sky-900 dark:before:bg-sky-400 before:rounded-full bg-sky-100/50" href="#">
+          <a onClick={() => navigate('/employee')} className="cursor-pointer flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 font-bold text-sky-900 dark:text-sky-100 relative before:content-[''] before:absolute before:left-0 before:w-1 before:h-8 before:bg-sky-900 dark:before:bg-sky-400 before:rounded-full bg-sky-100/50">
             <span className="material-symbols-outlined pb-1">dashboard</span>
             <span className="tracking-wide text-sm font-label">Dashboard</span>
           </a>
-          <a className="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 text-slate-500 dark:text-slate-400 font-medium hover:bg-sky-100/50" href="#">
+          <a onClick={() => navigate('/employee/tasks')} className="cursor-pointer flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 text-slate-500 dark:text-slate-400 font-medium hover:bg-sky-100/50">
             <span className="material-symbols-outlined pb-1">assignment</span>
             <span className="tracking-wide text-sm font-label">Tasks</span>
           </a>
-          <a className="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 text-slate-500 dark:text-slate-400 font-medium hover:bg-sky-100/50" href="#">
+          <a onClick={() => navigate('/employee/profile')} className="cursor-pointer flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 text-slate-500 dark:text-slate-400 font-medium hover:bg-sky-100/50">
             <span className="material-symbols-outlined pb-1">person</span>
             <span className="tracking-wide text-sm font-label">Profile</span>
           </a>

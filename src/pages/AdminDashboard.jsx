@@ -33,15 +33,15 @@ const AdminDashboard = () => {
           <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500 mt-1">Crystalline Executive</p>
         </div>
         <nav className="flex-1 space-y-2">
-          <a className="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 font-bold text-sky-900 dark:text-sky-100 relative before:content-[''] before:absolute before:left-0 before:w-1 before:h-8 before:bg-sky-900 dark:before:bg-sky-400 before:rounded-full hover:bg-sky-100/50 dark:hover:bg-sky-800/30" href="#">
+          <a onClick={() => navigate('/admin')} className="cursor-pointer flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 font-bold text-sky-900 dark:text-sky-100 relative before:content-[''] before:absolute before:left-0 before:w-1 before:h-8 before:bg-sky-900 dark:before:bg-sky-400 before:rounded-full hover:bg-sky-100/50 dark:hover:bg-sky-800/30">
             <span className="material-symbols-outlined">dashboard</span>
             <span className="font-label text-sm tracking-wider">Dashboard</span>
           </a>
-          <a className="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 text-slate-500 dark:text-slate-400 font-medium hover:bg-sky-100/50 dark:hover:bg-sky-800/30" href="#">
+          <a onClick={() => navigate('/admin/tasks')} className="cursor-pointer flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 text-slate-500 dark:text-slate-400 font-medium hover:bg-sky-100/50 dark:hover:bg-sky-800/30">
             <span className="material-symbols-outlined">assignment</span>
             <span className="font-label text-sm tracking-wider">Tasks</span>
           </a>
-          <a className="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 text-slate-500 dark:text-slate-400 font-medium hover:bg-sky-100/50 dark:hover:bg-sky-800/30" href="#">
+          <a onClick={() => navigate('/admin/profile')} className="cursor-pointer flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 text-slate-500 dark:text-slate-400 font-medium hover:bg-sky-100/50 dark:hover:bg-sky-800/30">
             <span className="material-symbols-outlined">person</span>
             <span className="font-label text-sm tracking-wider">Profile</span>
           </a>
