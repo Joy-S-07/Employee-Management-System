@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
-import Login from './components/login/Login'
-import WebDashboard from './components/dashBoard/WebDashboard'
-import Admin from './components/dashBoard/Admin'
-import Employee from './components/dashBoard/Employee'
-import { AuthProvider, useAuth } from './context/AuthContext'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import { AuthProvider, useAuth } from './context/AuthContext';
+
+import Login from './pages/Login';
+import AdminDashboard from './pages/AdminDashboard';
+import EmployeeDashboard from './pages/EmployeeDashboard';
+import TaskManagement from './pages/TaskManagement';
+import OrganizationRegistration from './pages/OrganizationRegistration';
 
 const ProtectedAdminRoute = ({ children }) => {
   const { user } = useAuth();
@@ -26,10 +28,12 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<WebDashboard />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/register" element={<OrganizationRegistration />} />
         <Route path="/login" element={user ? <Navigate to={user.role === 'admin' ? "/admin" : "/employee"} replace /> : <Login />} />
-        <Route path="/admin" element={<ProtectedAdminRoute><Admin /></ProtectedAdminRoute>} />
-        <Route path="/employee" element={<ProtectedEmployeeRoute><Employee /></ProtectedEmployeeRoute>} />
+        <Route path="/admin" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
+        <Route path="/admin/tasks" element={<ProtectedAdminRoute><TaskManagement /></ProtectedAdminRoute>} />
+        <Route path="/employee" element={<ProtectedEmployeeRoute><EmployeeDashboard /></ProtectedEmployeeRoute>} />
       </Routes>
     </AnimatePresence>
   );
@@ -42,7 +46,7 @@ const App = () => {
         <AnimatedRoutes />
       </Router>
     </AuthProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

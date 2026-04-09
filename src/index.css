@@ -1,7 +1,84 @@
 @import "tailwindcss";
 
-html,
-body {
+@theme {
+  --color-surface-variant: #e0e3e5;
+  --color-error: #ba1a1a;
+  --color-on-error-container: #93000a;
+  --color-on-secondary-fixed-variant: #004d63;
+  --color-primary-container: #005b96;
+  --color-surface-container-high: #e6e8ea;
+  --color-on-tertiary-fixed: #0e1e1e;
+  --color-secondary-container: #95deff;
+  --color-on-primary-container: #abd2ff;
+  --color-secondary-fixed: #bce9ff;
+  --color-error-container: #ffdad6;
+  --color-inverse-on-surface: #eff1f3;
+  --color-primary: #004370;
+  --color-on-secondary-fixed: #001f29;
+  --color-surface: #f7f9fb;
+  --color-outline-variant: #c1c7d1;
+  --color-primary-fixed-dim: #9ccaff;
+  --color-on-secondary: #ffffff;
+  --color-primary-fixed: #d0e4ff;
+  --color-on-tertiary-fixed-variant: #3a4a49;
+  --color-on-primary-fixed-variant: #00497a;
+  --color-on-error: #ffffff;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-primary: #ffffff;
+  --color-tertiary-fixed-dim: #b8cac9;
+  --color-secondary: #026783;
+  --color-on-secondary-container: #00637f;
+  --color-on-surface-variant: #414750;
+  --color-surface-tint: #12629d;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #4a5b5a;
+  --color-secondary-fixed-dim: #87d0f0;
+  --color-inverse-primary: #9ccaff;
+  --color-outline: #717781;
+  --color-on-primary-fixed: #001d35;
+  --color-surface-dim: #d8dadc;
+  --color-surface-container-highest: #e0e3e5;
+  --color-surface-container: #eceef0;
+  --color-tertiary-fixed: #d4e6e5;
+  --color-surface-container-low: #f2f4f6;
+  --color-background: #f7f9fb;
+  --color-inverse-surface: #2d3133;
+  --color-on-background: #191c1e;
+  --color-surface-bright: #f7f9fb;
+  --color-on-surface: #191c1e;
+  --color-on-tertiary-container: #c0d2d1;
+  --color-tertiary: #334343;
+
+  --font-headline: Manrope;
+  --font-body: Inter;
+  --font-label: Inter;
+}
+
+html, body {
   height: 100%;
   width: 100%;
+}
+
+@layer utilities {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  }
+  .text-glow {
+    text-shadow: 0 0 20px rgba(0, 67, 112, 0.1);
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
